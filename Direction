@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Get directions to The Glass Tree by zuljannah using Google Maps or Waze.">
+  <title>Navigate to The Glass Tree by zuljannah</title>
+
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --primary: #111827;
+      --primary-hover: #1f2937;
+      --google: #1a73e8;
+      --google-hover: #1558b0;
+      --waze: #33ccff;
+      --waze-text: #052633;
+      --waze-hover: #19b7eb;
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(26, 115, 232, 0.09), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(51, 204, 255, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(100%, 520px);
+      background: var(--card);
+      border: 1px solid rgba(17, 24, 39, 0.06);
+      border-radius: var(--radius);
+      box-shadow: 0 20px 55px rgba(17, 24, 39, 0.10);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 34px 28px 24px;
+      text-align: center;
+      background: linear-gradient(135deg, #ffffff, #f8fbff);
+    }
+
+    .pin {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      background: #eef4ff;
+      color: #1a73e8;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 6vw, 34px);
+      line-height: 1.14;
+      letter-spacing: -0.025em;
+    }
+
+    .subtitle {
+      margin: 10px auto 0;
+      max-width: 430px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .content {
+      padding: 0 28px 30px;
+    }
+
+    .destination {
+      margin: 4px 0 22px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #fbfcfe;
+    }
+
+    .destination-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .destination-name {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .coordinates {
+      margin-top: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      color: var(--muted);
+      word-break: break-all;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 9px;
+    }
+
+    select {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 44px 0 15px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+      outline: none;
+    }
+
+    select:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.14);
+    }
+
+    .buttons {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      width: 100%;
+      min-height: 58px;
+      border: 0;
+      border-radius: 14px;
+      font: inherit;
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.14s ease, background 0.14s ease, box-shadow 0.14s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:active {
+      transform: translateY(1px) scale(0.995);
+    }
+
+    .google-btn {
+      color: #fff;
+      background: var(--google);
+      box-shadow: 0 9px 20px rgba(26, 115, 232, 0.22);
+    }
+
+    .google-btn:hover {
+      background: var(--google-hover);
+    }
+
+    .waze-btn {
+      color: var(--waze-text);
+      background: var(--waze);
+      box-shadow: 0 9px 20px rgba(51, 204, 255, 0.18);
+    }
+
+    .waze-btn:hover {
+      background: var(--waze-hover);
+    }
+
+    .button-title {
+      display: block;
+      line-height: 1.05;
+    }
+
+    .button-subtitle {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 5px;
+      opacity: 0.78;
+    }
+
+    .notice {
+      margin: 18px 0 0;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #fff8e8;
+      color: #73520a;
+      font-size: 12.5px;
+      line-height: 1.5;
+      border: 1px solid #f5dfaa;
+    }
+
+    .footer {
+      padding: 14px 28px 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .footer a {
+      color: inherit;
+    }
+
+    @media (max-width: 420px) {
+      body {
+        padding: 12px;
+      }
+
+      .hero {
+        padding: 28px 20px 20px;
+      }
+
+      .content {
+        padding: 0 20px 24px;
+      }
+
+      .footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <section class="hero">
+      <div class="pin" aria-hidden="true">📍</div>
+      <h1>Get Directions</h1>
+      <p class="subtitle">
+        Choose your preferred travel mode, then open the route in Google Maps or Waze.
+      </p>
+    </section>
+
+    <section class="content">
+      <div class="destination">
+        <div class="destination-label">Destination</div>
+        <div class="destination-name">The Glass Tree by zuljannah</div>
+        <div class="coordinates">3.0476349370289433, 101.47245438175815</div>
+      </div>
+
+      <label for="travelMode">Travel mode</label>
+      <select id="travelMode" aria-label="Choose travel mode">
+        <option value="DRIVING">🚗 Driving</option>
+        <option value="WALKING">🚶 Walking</option>
+        <option value="BICYCLING">🚲 Bicycling</option>
+        <option value="TRANSIT">🚌 Transit</option>
+        <option value="TWO_WHEELER">🏍️ Two-wheeler / Motorcycle</option>
+      </select>
+
+      <div class="buttons">
+        <button type="button" class="google-btn" id="googleBtn">
+          <span class="button-title">Open in Google Maps</span>
+          <span class="button-subtitle">Uses your current location as the origin</span>
+        </button>
+
+        <button type="button" class="waze-btn" id="wazeBtn">
+          <span class="button-title">Open in Waze</span>
+          <span class="button-subtitle">Uses your current location as the origin</span>
+        </button>
+      </div>
+
+      <div class="notice" id="wazeNotice">
+        Waze's documented Deep Link interface supports destination navigation and
+        vehicle type selection (including motorcycle), but does not expose walking,
+        bicycling, or public-transit travel modes. For those modes, Google Maps is
+        used as the mode-accurate option.
+      </div>
+    </section>
+
+    <footer class="footer">
+      Destination is fixed to the supplied coordinates. No browser geolocation
+      permission is requested; the selected navigation app determines the user's
+      current origin.
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const DESTINATION = "3.0476349370289433,101.47245438175815";
+      const DESTINATION_NAME = "The Glass Tree by zuljannah";
+
+      const travelMode = document.getElementById("travelMode");
+      const googleBtn = document.getElementById("googleBtn");
+      const wazeBtn = document.getElementById("wazeBtn");
+      const wazeNotice = document.getElementById("wazeNotice");
+
+      /*
+       * Google Maps:
+       * Uses Google's universal cross-platform Maps URL.
+       * origin is intentionally omitted so Google Maps uses the device's
+       * current location when available.
+       */
+      function getGoogleMapsUrl(mode) {
+        const params = new URLSearchParams({
+          api: "1",
+          destination: DESTINATION,
+          travelmode: mode.toLowerCase(),
+          dir_action: "navigate"
+        });
+
+        return `https://www.google.com/maps/dir/?${params.toString()}`;
+      }
+
+      /*
+       * Waze:
+       * Waze Deep Links use the documented /ul endpoint.
+       * ll + navigate=yes requests navigation to the destination.
+       * Waze supports vehicle_type=private or motorcycle.
+       *
+       * Waze does not document a travelmode parameter for walking,
+       * bicycling or transit, so those choices cannot be faithfully
+       * forced in Waze. For TWO_WHEELER we map to motorcycle.
+       */
+      function getWazeUrl(mode) {
+        const params = new URLSearchParams({
+          ll: DESTINATION,
+          navigate: "yes"
+        });
+
+        if (mode === "TWO_WHEELER") {
+          params.set("vehicle_type", "motorcycle");
+        } else if (mode === "DRIVING") {
+          params.set("vehicle_type", "private");
+        }
+
+        // Optional attribution/source parameter.
+        params.set("utm_source", "github_pages_navigation");
+
+        return `https://waze.com/ul?${params.toString()}`;
+      }
+
+      function updateWazeNotice() {
+        const mode = travelMode.value;
+
+        if (mode === "TWO_WHEELER") {
+          wazeNotice.textContent =
+            "Waze will request motorcycle routing for the selected two-wheeler mode.";
+          wazeNotice.style.display = "block";
+        } else if (mode === "DRIVING") {
+          wazeNotice.textContent =
+            "Waze will request passenger-vehicle routing. The destination is fixed and Waze determines the current origin.";
+          wazeNotice.style.display = "block";
+        } else {
+          wazeNotice.textContent =
+            "Waze's documented Deep Link interface does not expose walking, bicycling, or public-transit travel modes. For these modes, Google Maps is the mode-accurate option.";
+          wazeNotice.style.display = "block";
+        }
+      }
+
+      travelMode.addEventListener("change", updateWazeNotice);
+
+      googleBtn.addEventListener("click", () => {
+        const mode = travelMode.value;
+        window.location.assign(getGoogleMapsUrl(mode));
+      });
+
+      wazeBtn.addEventListener("click", () => {
+        const mode = travelMode.value;
+
+        /*
+         * The Waze URL is an official cross-platform HTTPS Deep Link.
+         * On supported mobile configurations:
+         *   - Waze installed -> Waze app opens
+         *   - Waze not installed -> Waze web experience opens
+         *
+         * The OS/browser remains in control of external-app handling,
+         * so no website can guarantee overriding user/system policies.
+         */
+        window.location.assign(getWazeUrl(mode));
+      });
+
+      updateWazeNotice();
+      void DESTINATION_NAME; // Kept for easy customization.
+    })();
+  </script>
+</body>
+</html>
